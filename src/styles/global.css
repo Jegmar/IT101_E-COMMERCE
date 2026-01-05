@@ -1,4 +1,6 @@
+@import 'primeicons/primeicons.css';
 :root {
+
   --primary: #ff9ec9;      /* soft pink */
   --primary-dark: #e07aa8;
   --accent: #ffb84d;       /* warm peach */
