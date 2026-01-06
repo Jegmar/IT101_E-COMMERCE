@@ -1,29 +1,30 @@
 <template>
   <div class="card">
-    <router-link :to="{ name: 'product-detail', params: { id: cupcake.id } }">
+    <div class="card-image" @click="openProductModal">
       <img :src="cupcake.image" :alt="cupcake.name" />
-    </router-link>
+    </div>
     <div class="card-body">
-      <h3>{{ cupcake.name }}</h3>
+      <h3 @click="openProductModal" class="product-title">{{ cupcake.name }}</h3>
       <p class="price">${{ cupcake.price.toFixed(2) }}</p>
-      <button @click="addToCart" class="add-btn">Add to Cart</button>
+      <button @click="openProductModal" class="add-btn">Add to Cart</button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
-import { useCartStore } from '../stores/cart'
+import { defineProps, defineEmits } from 'vue'
 
 const props = defineProps({
   cupcake: Object
 })
 
-const cartStore = useCartStore()
+const emit = defineEmits(['openModal'])
 
-const addToCart = () => {
-  cartStore.addItem(props.cupcake.id)
-  // Simple toast could be added, but keeping minimal
+const openProductModal = (event) => {
+  if (event) {
+    event.stopPropagation()
+  }
+  emit('openModal', props.cupcake)
 }
 </script>
 
@@ -38,17 +39,30 @@ const addToCart = () => {
 .card:hover {
   transform: translateY(-8px);
 }
-.card img {
+.card-image {
+  cursor: pointer;
+}
+.card-image img {
   aspect-ratio: 1/1;
   object-fit: cover;
+  width: 100%;
+  transition: transform 0.3s ease;
+}
+.card-image:hover img {
+  transform: scale(1.05);
 }
 .card-body {
   padding: 1.5rem;
   text-align: center;
 }
-.card-body h3 {
+.product-title {
   margin-bottom: 0.5rem;
   font-size: 1.3rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.product-title:hover {
+  color: var(--primary);
 }
 .price {
   font-size: 1.4rem;
@@ -62,8 +76,13 @@ const addToCart = () => {
   width: 100%;
   border-radius: 30px;
   padding: 0.8rem;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
 }
 .add-btn:hover {
   background: var(--primary-dark);
+  transform: translateY(-2px);
 }
 </style>

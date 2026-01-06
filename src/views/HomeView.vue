@@ -4,27 +4,71 @@
       <h1>Freshly Baked Cupcakes<br>Made with Love</h1>
       <p>Indulge in our handcrafted delights – perfect for any occasion!</p>
       <div class="hero-buttons">
-        <router-link to="/products" class="btn-primary">Shop Now</router-link>
-        <router-link to="/products" class="btn-secondary">View Menu</router-link>
+        <a href="#featured-cupcakes" class="btn-primary btn-ripple" @click.prevent="scrollToFeatured">Shop Now</a>
+        <router-link to="/products" class="btn-secondary btn-ripple">
+          View Menu
+        </router-link>
       </div>
     </div>
   </section>
 
-  <section class="featured">
+  <section id="featured-cupcakes" class="featured">
     <div class="container">
       <h2>Featured Cupcakes</h2>
       <div class="grid">
-        <CupcakeCard v-for="cupcake in featured" :key="cupcake.id" :cupcake="cupcake" />
+        <CupcakeCard 
+          v-for="cupcake in featured" 
+          :key="cupcake.id" 
+          :cupcake="cupcake"
+          @open-modal="openModal"
+        />
       </div>
     </div>
   </section>
+
+  <!-- Product Modal -->
+  <ProductModal 
+    v-if="showModal"
+    :show="showModal"
+    :selectedCupcake="selectedCupcake"
+    @close="closeModal"
+    @add-to-cart="handleAddToCart"
+  />
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { cupcakes } from '../data/cupcakes'
 import CupcakeCard from '../components/CupcakeCard.vue'
+import ProductModal from '../components/ProductModal.vue'
 
 const featured = cupcakes.slice(0, 4)
+const showModal = ref(false)
+const selectedCupcake = ref(null)
+
+const scrollToFeatured = () => {
+  const featuredSection = document.getElementById('featured-cupcakes')
+  if (featuredSection) {
+    featuredSection.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    })
+  }
+}
+
+const openModal = (cupcake) => {
+  selectedCupcake.value = cupcake
+  showModal.value = true
+}
+
+const closeModal = () => {
+  showModal.value = false
+  selectedCupcake.value = null
+}
+
+const handleAddToCart = ({ id, quantity }) => {
+  console.log(`Added ${quantity} of product ${id} to cart`)
+}
 </script>
 
 <style scoped>
@@ -56,6 +100,14 @@ const featured = cupcakes.slice(0, 4)
   border-radius: 50px;
   text-decoration: none;
   font-size: 1.2rem;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 .btn-secondary {
   background: transparent;
@@ -65,6 +117,12 @@ const featured = cupcakes.slice(0, 4)
   border-radius: 50px;
   text-decoration: none;
   font-size: 1.2rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 .featured {
   padding: 4rem 0;

@@ -9,19 +9,52 @@
       <p class="subtitle">Choose from our delicious selection of freshly baked cupcakes</p>
       
       <div class="grid">
-        <CupcakeCard v-for="cupcake in cupcakes" :key="cupcake.id" :cupcake="cupcake" />
+        <CupcakeCard 
+          v-for="cupcake in cupcakes" 
+          :key="cupcake.id" 
+          :cupcake="cupcake"
+          @open-modal="openModal"
+        />
       </div>
     </div>
+    
+    <!-- Product Modal -->
+    <ProductModal 
+      v-if="showModal"
+      :show="showModal"
+      :selectedCupcake="selectedCupcake"
+      @close="closeModal"
+      @add-to-cart="handleAddToCart"
+    />
   </section>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { cupcakes } from '../data/cupcakes'
 import CupcakeCard from '../components/CupcakeCard.vue'
+import ProductModal from '../components/ProductModal.vue'
+
+const showModal = ref(false)
+const selectedCupcake = ref(null)
+
+const openModal = (cupcake) => {
+  selectedCupcake.value = cupcake
+  showModal.value = true
+}
+
+const closeModal = () => {
+  showModal.value = false
+  selectedCupcake.value = null
+}
+
+const handleAddToCart = ({ id, quantity }) => {
+  // You can add any additional logic here if needed
+  console.log(`Added ${quantity} of product ${id} to cart`)
+}
 </script>
 
 <style scoped>
-
 .products-page {
   padding: 2rem 0;
   min-height: 100vh;
@@ -52,8 +85,7 @@ import CupcakeCard from '../components/CupcakeCard.vue'
 }
 
 .back-btn:hover {
-  background: var(--primary-light);
-  transform: translateY(-2px);
+  color: var(--primary);
   text-decoration: underline;
 }
 
@@ -128,5 +160,4 @@ h1 {
     justify-items: center;
   }
 }
-
 </style>
