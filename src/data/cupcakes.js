@@ -118,5 +118,25 @@ export const cupcakes = [
     rating: 4.8,
     ratingCount: 687,
     orderedCount: 1100
-  }  
+  },
+  {
+    id: 13,
+    name: "Strawberry Cheesecake Swirl",
+    description: "Creamy cheesecake-filled vanilla cupcake topped with fresh strawberries and graham cracker crumbs.",
+    price: 39,
+    image: "/src/assets/images/cupcake13.jpg",
+    rating: 4.4,
+    ratingCount: 387,
+    orderedCount: 140
+  },
+  {
+    id: 14,
+    name: "Rose Pistachio Elegance",
+    description: "Nutty pistachio cake with delicate rosewater buttercream and crushed pistachios.",
+    price: 45,
+    image: "/src/assets/images/cupcake14.jpg",
+    rating: 4.6,
+    ratingCount: 219,
+    orderedCount: 542
+  }
 ]
