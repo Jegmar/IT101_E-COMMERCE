@@ -90,6 +90,16 @@ export const cupcakes = [
     orderedCount: 330
   },
   {
+    id: 11,
+    name: "Coconut Cloud",
+    description: "Coconut cake with fluffy coconut frosting and toasted flakes.",
+    price: 32,
+    image: "/src/assets/images/cupcake11.jpg",
+    rating: 3.9,
+    ratingCount: 410,
+    orderedCount: 720
+  },
+  {
     id: 10,
     name: "Matcha Green Tea Glow",
     description: "Light matcha sponge with matcha cream cheese frosting.",
@@ -98,16 +108,6 @@ export const cupcakes = [
     rating: 4.4,
     ratingCount: 356,
     orderedCount: 549
-  },
-  {
-    id: 11,
-    name: "Coconut Cloud",
-    description: "Coconut cake with fluffy coconut frosting and toasted flakes.",
-    price: 32,
-    image: "/src/assets/images/cupcake11.jpg",
-    rating: 4.6,
-    ratingCount: 410,
-    orderedCount: 720
   },
   {
     id: 12,
@@ -188,5 +188,25 @@ export const cupcakes = [
     rating: 4.5,
     ratingCount: 235,
     orderedCount: 410
+  },
+  {
+    id: 20,
+    name: "Double Chocolate Fudge",
+    description: "Rich, moist chocolate cupcake with a fudgy chocolate center and silky dairy-free chocolate ganache swirl.",
+    price: 38,
+    image: "/src/assets/images/cupcake20.jpg",
+    rating: 4.7,
+    ratingCount: 195,
+    orderedCount: 398
+  },
+  {
+    id: 21,
+    name: "Lemon Poppy Seed",
+    description: "Bright lemon cupcake studded with poppy seeds, topped with tangy lemon glaze and a sprinkle of extra seeds.",
+    price: 38,
+    image: "/src/assets/images/cupcake21.jpg",
+    rating: 4.9,
+    ratingCount: 69,
+    orderedCount: 111
   }
 ]
