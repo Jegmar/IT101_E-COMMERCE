@@ -1,55 +1,38 @@
 <template>
   <div v-if="show" class="modal-overlay" @click="closeModal">
     <div class="modal-content" @click.stop>
+      <button class="modal-close" @click="closeModal">×</button>
       <div class="modal-grid">
-        <div class="modal-image-container">
-          <button class="modal-back-btn" @click="closeModal">
-            <i class="pi pi-arrow-left"></i>
-          </button>
-          <div class="modal-image-wrapper">
-            <img :src="selectedCupcake.image" :alt="selectedCupcake.name" />
+        <div class="modal-image-section">
+          <div class="full-vertical-image-container">
+            <img 
+              :src="selectedCupcake.image" 
+              :alt="selectedCupcake.name" 
+              class="full-vertical-image"
+            />
           </div>
         </div>
-        
-
         <div class="modal-info">
           <h2>{{ selectedCupcake.name }}</h2>
-          
-          <p class="modal-description">{{ selectedCupcake.description }}</p>
-
-          <div class="image-footer">
-            <div class="modal-rating">
-              <span class="single-star" :class="{ 'high-rating': selectedCupcake.rating >= 4.0 }">
-                ★
-              </span>
-              <span class="rating-score">{{ selectedCupcake.rating.toFixed(1) }}</span>
-              <span class="review-count">({{ selectedCupcake.ratingCount }} reviews)</span>
-            </div>
-            <p class="ordered-count">
-              Ordered by {{ selectedCupcake.orderedCount || 1247 }} customers
-            </p>
-          </div>
-
           <p class="modal-price">₱{{ selectedCupcake.price.toFixed(2) }}</p>
-
+          <p class="modal-description">{{ selectedCupcake.description }}</p>
+          
           <div class="modal-quantity">
-            <label>Quantity:</label>
+            <label for="modal-quantity">Quantity:</label>
             <div class="modal-controls">
-              <button @click="qty > 1 && qty--" :disabled="qty <= 1">
-                <span class="button-text">-</span>
-              </button>
+              <button @click="qty > 1 && qty--" :disabled="qty <= 1">-</button>
               <input 
                 type="number" 
+                id="modal-quantity" 
                 v-model.number="qty" 
                 min="1" 
+                @keydown.prevent
               />
-              <button @click="qty++">
-                <span class="button-text">+</span>
-              </button>
+              <button @click="qty++">+</button>
             </div>
           </div>
 
-          <button @click="addToCart" class="modal-add-btn">
+          <button @click="addToCart" class="modal-add-btn" :disabled="qty <= 0">
             Add to Cart
           </button>
         </div>
@@ -67,7 +50,7 @@ const props = defineProps({
   selectedCupcake: Object
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'addToCart'])
 const cartStore = useCartStore()
 const qty = ref(1)
 
@@ -82,13 +65,15 @@ const closeModal = () => {
 }
 
 const addToCart = () => {
-  cartStore.addItem(props.selectedCupcake.id, qty.value)
-  closeModal()
+  if (qty.value > 0) {
+    // Emit the event to parent (HomeView.vue)
+    emit('addToCart', { id: props.selectedCupcake.id, quantity: qty.value })
+    closeModal()
+  }
 }
 </script>
 
 <style scoped>
-
 /* Fade + Slide transition */
 .modal-enter-active,
 .modal-leave-active {
@@ -128,6 +113,7 @@ const addToCart = () => {
     transform: translateY(0) scale(1);
   }
 }
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -157,69 +143,68 @@ const addToCart = () => {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2.5rem;
-  align-items: stretch; /* Changed from start to stretch */
-  min-height: 400px; /* Added min-height for consistent vertical centering */
+  align-items: stretch;
+  min-height: 400px;
 }
 
-.modal-image-container {
-  position: relative;
+.modal-image-section {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%; /* Added to fill the grid cell */
 }
 
-.modal-back-btn {
+.full-vertical-image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  background: #f8f8f8;
+}
+
+.full-vertical-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.full-vertical-image:hover {
+  transform: scale(1.02);
+}
+
+.modal-close {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  font-size: 2rem;
+  color: #333;
+  cursor: pointer;
   width: 40px;
   height: 40px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
-  color: var(--primary-dark);
-  cursor: pointer;
   transition: all 0.3s ease;
-  background: none;
-  border: none;
-  z-index: 5;
+  z-index: 10;
 }
 
-.modal-back-btn:hover {
-  color: var(--primary);
-  text-decoration: none;
-  transform: translateY(-2px);
-}
-
-.modal-image-wrapper {
-  border-radius: 16px;
-  overflow: hidden;
-  padding: 0.80rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%; /* Changed from 100% to fill container */
-  min-height: 400px; /* Added min-height for vertical centering */
-  margin-top: -8rem;;
-}
-
-.modal-image-wrapper img {
-  max-width: 100%;
-  max-height: 100%; /* Changed from fixed height to percentage */
-  width: auto; /* Changed from 100% to auto */
-  height: auto;
-  object-fit: contain;
-  display: block;
+.modal-close:hover {
+  background: rgba(0, 0, 0, 0.2);
+  transform: rotate(90deg);
 }
 
 .modal-info {
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Changed to distribute space */
-  height: 100%; /* Added to fill the grid cell */
+  justify-content: space-between;
+  height: 100%;
 }
 
 .modal-info h2 {
@@ -246,7 +231,7 @@ const addToCart = () => {
   margin: 1.5rem 0;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center the whole quantity section */
+  align-items: center;
   justify-content: center;
   width: 100%;
 }
@@ -256,14 +241,14 @@ const addToCart = () => {
   margin-bottom: 0.5rem;
   font-weight: 500;
   color: #333;
-  text-align: center; /* Center the label text */
+  text-align: center;
   width: 100%;
 }
 
 .modal-controls {
   display: flex;
   align-items: center;
-  justify-content: center; /* Center the controls */
+  justify-content: center;
   gap: 1rem;
   width: 100%;
 }
@@ -276,34 +261,24 @@ const addToCart = () => {
   color: white;
   border: none;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
-  position: relative;
-}
-
-.modal-controls .button-text {
-  font-size: 1.8rem;
-  font-weight: 500;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
+  font-size: 1.4rem;
+  font-weight: bold;
 }
 
 .modal-controls button:hover:not(:disabled) {
   background: var(--primary-dark);
+  transform: scale(1.1);
 }
 
 .modal-controls button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
 .modal-controls input {
@@ -313,6 +288,13 @@ const addToCart = () => {
   font-size: 1.1rem;
   border: 2px solid #ddd;
   border-radius: 10px;
+  -moz-appearance: textfield;
+}
+
+.modal-controls input::-webkit-outer-spin-button,
+.modal-controls input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .modal-add-btn {
@@ -325,38 +307,49 @@ const addToCart = () => {
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s ease;
-  margin-top: 2rem; /* Changed from auto to fixed margin */
+  transition: all 0.3s ease;
+  margin-top: 2rem;
 }
 
-.modal-add-btn:hover {
+.modal-add-btn:hover:not(:disabled) {
   background: #ff9d1a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 157, 26, 0.3);
+}
+
+.modal-add-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 @media (max-width: 768px) {
   .modal-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
-    min-height: auto; /* Reset min-height on mobile */
-    align-items: start; /* Reset to start on mobile */
+    min-height: auto;
+    align-items: start;
   }
   
-  .modal-image-container {
-    height: auto; /* Reset height on mobile */
+  .modal-image-section {
+    height: auto;
   }
   
-  .modal-image-wrapper {
-    min-height: 300px; /* Adjusted for mobile */
-    height: auto; /* Reset height on mobile */
+  .full-vertical-image-container {
+    height: 300px;
+    min-height: 300px;
   }
   
-  .modal-image-wrapper img {
-    max-height: 300px; /* Restore fixed height for mobile */
-    width: 100%; /* Full width on mobile */
+  .full-vertical-image {
+    height: auto;
+    max-height: 300px;
+    width: auto;
+    max-width: 100%;
   }
   
   .modal-info {
-    height: auto; /* Reset height on mobile */
+    height: auto;
   }
   
   .modal-info h2 {
@@ -373,7 +366,18 @@ const addToCart = () => {
   }
   
   .modal-add-btn {
-    margin-top: 1.5rem; /* Adjusted margin for mobile */
+    margin-top: 1.5rem;
+  }
+  
+  .modal-controls button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  
+  .modal-controls input {
+    width: 60px;
+    padding: 0.6rem;
   }
 }
 
@@ -386,11 +390,12 @@ const addToCart = () => {
     gap: 1rem;
   }
   
-  .modal-image-wrapper {
-    min-height: 250px; /* Smaller min-height for mobile */
+  .full-vertical-image-container {
+    height: 250px;
+    min-height: 250px;
   }
   
-  .modal-image-wrapper img {
+  .full-vertical-image {
     max-height: 250px;
   }
   
@@ -398,23 +403,10 @@ const addToCart = () => {
     font-size: 1.6rem;
   }
   
-  .modal-controls button {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .modal-controls .button-text {
-    font-size: 1.6rem;
-  }
-  
-  .modal-controls input {
-    width: 60px;
-    padding: 0.5rem;
-  }
-  
   .modal-add-btn {
-    margin-top: 1rem; /* Smaller margin for mobile */
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    padding: 0.9rem 1.5rem;
   }
 }
-/* orig */
 </style>
