@@ -7,8 +7,12 @@
       <nav class="nav-links" :class="{ open: mobileMenuOpen }">
         <router-link to="/" @click="mobileMenuOpen = false">Home</router-link>
         <router-link to="/products" @click="mobileMenuOpen = false">Menu</router-link>
+        <router-link to="/order-confirmation" @click="mobileMenuOpen = false" class="orders-link">
+          Orders
+          <span v-if="hasRecentOrder" class="order-badge">1</span>
+        </router-link>
         <router-link to="/cart" class="cart-link" @click="mobileMenuOpen = false">
-          Cart
+          Cart 🛒
           <span v-if="cartTotal > 0" class="cart-count">{{ cartTotal }}</span>
         </router-link>
       </nav>
@@ -23,7 +27,10 @@
 import { ref, computed } from 'vue'
 import { useCartStore } from '../stores/cart'
 import { RouterLink } from 'vue-router'
+import { useOrderStore } from '../stores/order'
 
+const orderStore = useOrderStore()
+const hasOrder = computed(() => orderStore.hasOrder())
 const cartStore = useCartStore()
 const cartTotal = computed(() => cartStore.totalItems)
 const mobileMenuOpen = ref(false)
@@ -44,7 +51,7 @@ const mobileMenuOpen = ref(false)
   padding: 1rem 0;
 }
 .logo h1 {
-  font-size: 2rem;
+  font-size: rem;
   color: var(--primary);
 }
 .nav-links {
@@ -107,5 +114,22 @@ const mobileMenuOpen = ref(false)
   .mobile-toggle {
     display: block;
   }
+}
+
+.orders-link {
+  position: relative;
+}
+.order-badge {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background: var(--accent);
+  color: white;
+  font-size: 0.8rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
 }
 </style>

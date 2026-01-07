@@ -4,8 +4,11 @@ import ProductsView from '../views/ProductsView.vue'
 import ProductDetailView from '../views/ProductDetailView.vue'
 import CartView from '../views/CartView.vue'
 import CheckoutView from '../views/CheckoutView.vue'
+import OrderConfirmationView from '../views/OrderConfirmationView.vue'
 
 const routes = [
+  { path: '/order-confirmation', name: 'order-confirmation', component: OrderConfirmationView },
+  
   { path: '/', 
     name: 'home', 
     component: HomeView,

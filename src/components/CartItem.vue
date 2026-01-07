@@ -3,7 +3,7 @@
     <img :src="item.image" :alt="item.name" />
     <div class="details">
       <h4>{{ item.name }}</h4>
-      <p>${{ item.price.toFixed(2) }} each</p>
+      <p>₱{{ item.price.toFixed(2) }} each</p>
       <div class="quantity">
         <button @click="update(-1)" :disabled="item.quantity <= 1" class="qty-btn">
           <span class="qty-symbol">−</span>
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="subtotal">
-      <p class="subtotal-amount">${{ (item.price * item.quantity).toFixed(2) }}</p>
+      <p class="subtotal-amount">₱{{ (item.price * item.quantity).toFixed(2) }}</p>
       <button @click="remove" class="remove-btn" aria-label="Remove item">
         <span class="remove-symbol">×</span>
       </button>

@@ -10,11 +10,28 @@
             <img :src="selectedCupcake.image" :alt="selectedCupcake.name" />
           </div>
         </div>
+        
+
         <div class="modal-info">
           <h2>{{ selectedCupcake.name }}</h2>
-          <p class="modal-price">${{ selectedCupcake.price.toFixed(2) }}</p>
-          <p class="modal-description">{{ selectedCupcake.description }}</p>
           
+          <p class="modal-description">{{ selectedCupcake.description }}</p>
+
+          <div class="image-footer">
+            <div class="modal-rating">
+              <span class="single-star" :class="{ 'high-rating': selectedCupcake.rating >= 4.0 }">
+                ★
+              </span>
+              <span class="rating-score">{{ selectedCupcake.rating.toFixed(1) }}</span>
+              <span class="review-count">({{ selectedCupcake.ratingCount }} reviews)</span>
+            </div>
+            <p class="ordered-count">
+              Ordered by {{ selectedCupcake.orderedCount || 1247 }} customers
+            </p>
+          </div>
+
+          <p class="modal-price">₱{{ selectedCupcake.price.toFixed(2) }}</p>
+
           <div class="modal-quantity">
             <label>Quantity:</label>
             <div class="modal-controls">
@@ -172,20 +189,21 @@ const addToCart = () => {
 
 .modal-back-btn:hover {
   color: var(--primary);
-  text-decoration: underline;
+  text-decoration: none;
   transform: translateY(-2px);
 }
 
 .modal-image-wrapper {
   border-radius: 16px;
   overflow: hidden;
-  padding: 1rem;
+  padding: 0.80rem;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%; /* Changed from 100% to fill container */
   min-height: 400px; /* Added min-height for vertical centering */
+  margin-top: -8rem;;
 }
 
 .modal-image-wrapper img {
@@ -221,6 +239,7 @@ const addToCart = () => {
   color: #666;
   line-height: 1.6;
   margin-bottom: 2rem;
+  margin-top: 2rem;
 }
 
 .modal-quantity {
@@ -397,4 +416,5 @@ const addToCart = () => {
     margin-top: 1rem; /* Smaller margin for mobile */
   }
 }
+/* orig */
 </style>

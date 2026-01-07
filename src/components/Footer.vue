@@ -1,17 +1,43 @@
 <template>
   <footer class="footer">
     <div class="container footer-content">
-      <div class="footer-info">
-        <h3>Sweet Bites Cupcake Shop</h3>
-        <p>Freshly baked cupcakes made with love every day.</p>
-        <p>123 Bakery Lane, Sweetville, CA 90210</p>
+      <!-- About Us -->
+      <div class="footer-column">
+        <h3>About Us</h3>
+        <p>
+          Sweet Bites is a cozy cupcake shop dedicated to bringing joy through freshly baked, handcrafted cupcakes made with love and the finest ingredients every day.
+        </p>
+        <p class="tagline">Your happiness is our sweetest reward! 🧁</p>
       </div>
-      <div class="footer-links">
-        <a href="#" aria-label="Facebook">Facebook</a>
-        <a href="#" aria-label="Instagram">Instagram</a>
-        <a href="#" aria-label="Twitter">Twitter</a>
+
+      <!-- Contact Info -->
+      <div class="footer-column">
+        <h3>Contact Us</h3>
+        <p><i class="pi pi-map-marker"></i> 123 Bakery Lane<br>Sweetville, CA 90210</p>
+        <p><i class="pi pi-phone"></i> (555) 123-4567</p>
+        <p><i class="pi pi-envelope"></i> hello@sweetbites.com</p>
       </div>
-      <p class="copyright">&copy; 2026 Sweet Bites. All rights reserved.</p>
+
+      <!-- Social Media Icons -->
+      <div class="footer-column social-links">
+        <h3>Follow Us</h3>
+        <div class="icons">
+          <a href="#" aria-label="Facebook" class="social-icon">
+            <i class="pi pi-facebook"></i>
+          </a>
+          <a href="#" aria-label="Instagram" class="social-icon">
+            <i class="pi pi-instagram"></i>
+          </a>
+          <a href="#" aria-label="Twitter" class="social-icon">
+            <i class="pi pi-twitter"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Darker pink copyright strip -->
+    <div class="copyright-strip">
+      <p class="copyright">&copy; 2026 Sweet Bites Cupcake Shop. All rights reserved.</p>
     </div>
   </footer>
 </template>
@@ -20,41 +46,103 @@
 .footer {
   background: var(--primary);
   color: white;
-  padding: 3rem 0 1.5rem;
-  margin-top: 4rem;
+  padding: 4rem 0 0;
+  margin-top: 5rem;
 }
+
 .footer-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  text-align: left;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
-.footer-info h3 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
+
+.footer-column h3 {
+  font-size: 1.6rem;
+  margin-bottom: 1.2rem;
+  color: white;
 }
-.footer-links {
+
+.footer-column p {
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.9;
+  margin-bottom: 0.8rem;
+}
+
+.tagline {
+  font-style: italic;
+  margin-top: 1rem;
+  opacity: 0.8;
+}
+
+.footer-column i {
+  margin-right: 0.8rem;
+  font-size: 1.1rem;
+}
+
+.social-links {
+  text-align: right;
+}
+
+.icons {
   display: flex;
   gap: 1.5rem;
   justify-content: flex-end;
 }
-.footer-links a {
+
+.social-icon {
   color: white;
-  text-decoration: none;
-  font-size: 1.2rem;
+  font-size: 2rem;
+  opacity: 0.9;
+  transition: all 0.3s ease;
 }
+
+.social-icon:hover {
+  opacity: 1;
+  transform: translateY(-4px);
+}
+
+/* Darker pink copyright area */
+.copyright-strip {
+  background: var(--primary-dark); /* Darker pink */
+  padding: 1.5rem 0;
+  margin-top: 3rem;
+}
+
 .copyright {
-  grid-column: 1 / -1;
   text-align: center;
-  margin-top: 2rem;
-  opacity: 0.8;
+  margin: 0;
+  opacity: 0.9;
+  font-size: 0.9rem;
 }
+
+/* Responsive */
+@media (max-width: 992px) {
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+  }
+  .social-links {
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+  .icons {
+    justify-content: center;
+  }
+}
+
 @media (max-width: 768px) {
   .footer-content {
     grid-template-columns: 1fr;
     text-align: center;
+    gap: 2.5rem;
   }
-  .footer-links {
+  .social-links {
+    text-align: center;
+  }
+  .icons {
     justify-content: center;
   }
 }

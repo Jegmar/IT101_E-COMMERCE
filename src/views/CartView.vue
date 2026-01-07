@@ -18,7 +18,7 @@
             <div class="total-section">
               <div class="total-wrapper">
                 <span class="total-label">Total:</span>
-                <strong class="total-amount">${{ totalPrice.toFixed(2) }}</strong>
+                <strong class="total-amount">₱{{ totalPrice.toFixed(2) }}</strong>
               </div>
             </div>
             <router-link to="/checkout" class="btn-primary checkout-btn">
@@ -70,7 +70,7 @@ h1 {
   background: var(--accent);
   color: white;
   padding: 1rem 2rem;
-  border-radius: 12px;
+  border-radius: 50px;
   text-decoration: none;
   font-size: 1.1rem;
   font-weight: 600;

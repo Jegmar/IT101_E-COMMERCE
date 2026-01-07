@@ -83,13 +83,13 @@
               <span class="item-name">{{ item.name }}</span>
               <span class="item-qty">× {{ item.quantity }}</span>
             </div>
-            <span class="item-price">${{ (item.price * item.quantity).toFixed(2) }}</span>
+            <span class="item-price">₱{{ (item.price * item.quantity).toFixed(2) }}</span>
           </div>
         </div>
         
         <div class="summary-total">
           <strong>Total:</strong>
-          <strong>${{ totalPrice.toFixed(2) }}</strong>
+          <strong>₱{{ totalPrice.toFixed(2) }}</strong>
         </div>
         
         <div class="delivery-info">
@@ -123,7 +123,7 @@
               </div>
               <div class="detail-row">
                 <span>Order Total:</span>
-                <strong>${{ totalPrice.toFixed(2) }}</strong>
+                <strong>₱{{ totalPrice.toFixed(2) }}</strong>
               </div>
               <div class="detail-row">
                 <span>Delivery To:</span>
@@ -141,6 +141,12 @@
             </p>
             
             <div class="modal-actions">
+              <!-- New button: View Order Status (leads to full page) -->
+              <button @click="goToOrderStatus" class="got-it-btn" style="background: var(--primary-dark);">
+                View Order Status
+              </button>
+
+              <!-- Existing buttons -->
               <button @click="closeModal" class="got-it-btn">
                 Got it!
               </button>
@@ -162,11 +168,26 @@
 import { ref, computed } from 'vue'
 import { useCartStore } from '../stores/cart'
 import { useRouter } from 'vue-router'
+import { useOrderStore } from '../stores/order'
 
+const orderStore = useOrderStore()
 const cartStore = useCartStore()
 const router = useRouter()
 const cartItems = computed(() => cartStore.items)
 const totalPrice = computed(() => cartStore.totalPrice)
+
+const goToOrderStatus = () => {
+  showSuccessModal.value = false
+  router.push({
+    name: 'order-confirmation',
+    query: {
+      orderId: orderId.value,
+      name: form.name,
+      mobile: form.mobile,
+      total: totalPrice.value
+    }
+  })
+}
 
 const form = ref({
   name: '',
@@ -215,8 +236,26 @@ const handleSubmit = async () => {
   
   // Clear cart
   cartStore.clearCart()
-  isSubmitting.value = false
-  
+    isSubmitting.value = false
+
+    orderStore.setLatestOrder({
+    orderId: orderId.value,
+    name: form.value.name,
+    email: form.value.email,
+    mobile: form.value.mobile,
+    address: form.value.address,
+    notes: form.value.notes,
+    total: totalPrice.value,
+    items: cartItems.value,
+    date: new Date().toLocaleString()
+  })
+
+    orderStore.setLatestOrder({
+    orderId: orderId.value,
+    name: form.value.name,
+    mobile: form.value.mobile,
+    total: totalPrice.value,
+  })
   // Generate new order ID for next purchase
   orderId.value = generateOrderId()
 }

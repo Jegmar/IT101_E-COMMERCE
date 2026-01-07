@@ -42,7 +42,7 @@ import { cupcakes } from '../data/cupcakes'
 import CupcakeCard from '../components/CupcakeCard.vue'
 import ProductModal from '../components/ProductModal.vue'
 
-const featured = cupcakes.slice(0, 4)
+const featured = cupcakes.slice(0, 6)
 const showModal = ref(false)
 const selectedCupcake = ref(null)
 

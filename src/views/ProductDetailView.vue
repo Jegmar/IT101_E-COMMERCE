@@ -12,7 +12,7 @@
         </div>
         <div class="info-section">
           <h1>{{ cupcake.name }}</h1>
-          <p class="price">${{ cupcake.price.toFixed(2) }}</p>
+          <p class="price">₱{{ cupcake.price.toFixed(2) }}</p>
           <p class="description">{{ cupcake.description }}</p>
           
           <div class="quantity-selector">
@@ -106,7 +106,7 @@ const addToCart = () => {
 
 .back-btn:hover {
   color: var(--primary);
-  text-decoration: underline;
+  text-decoration: none;
   text-decoration-thickness: 2px;
   transform: translateY(-2px);
 }
