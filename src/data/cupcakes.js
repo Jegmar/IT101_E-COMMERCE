@@ -138,5 +138,55 @@ export const cupcakes = [
     rating: 4.6,
     ratingCount: 219,
     orderedCount: 542
+  },
+  {
+    id: 15,
+    name: "Campfire S'mores Bliss",
+    description: "Graham cracker base chocolate cupcake with toasted marshmallow meringue topping.",
+    price: 49,
+    image: "/src/assets/images/cupcake15.jpg",
+    rating: 4.8,
+    ratingCount: 120,
+    orderedCount: 112
+  },
+  {
+    id: 16,
+    name: "Chai Spice Latte",
+    description: "Warm spiced chai cake crowned with creamy latte frosting and a dash of cinnamon.",
+    price: 32,
+    image: "/src/assets/images/cupcake16.jpg",
+    rating: 4.4,
+    ratingCount: 256,
+    orderedCount: 389
+  },
+  {
+    id: 17,
+    name: "Black Forest Cherry",
+    description: "Deep chocolate cupcake filled with cherry compote, topped with whipped cream and chocolate shavings.",
+    price: 59,
+    image: "/src/assets/images/cupcake17.jpg",
+    rating: 4.8,
+    ratingCount: 341,
+    orderedCount: 599
+  },
+  {
+    id: 18,
+    name: "Mint Chocolate Chip Chill",
+    description: "Rich chocolate cupcake with refreshing mint buttercream and chocolate chips.",
+    price: 35,
+    image: "/src/assets/images/cupcake18.jpg",
+    rating: 4.0,
+    ratingCount: 115,
+    orderedCount: 275
+  },
+  {
+    id: 19,
+    name: "Peanut Butter Jelly Time",
+    description: "Peanut butter cupcake filled with grape jelly and topped with peanut butter frosting.",
+    price: 29,
+    image: "/src/assets/images/cupcake19.jpg",
+    rating: 4.5,
+    ratingCount: 235,
+    orderedCount: 410
   }
 ]
