@@ -7,6 +7,8 @@ import CheckoutView from '../views/CheckoutView.vue'
 import OrderConfirmationView from '../views/OrderConfirmationView.vue'
 
 const routes = [
+  { path: '/order-confirmation', name: 'order-confirmation', component: OrderConfirmationView },
+  
   { path: '/', 
     name: 'home', 
     component: HomeView,
@@ -38,11 +40,7 @@ const routes = [
   { path: '/checkout', 
     name: 'checkout', 
     component: CheckoutView 
-  },
-  { path: '/order-confirmation', 
-    name: 'order-confirmation', 
-    component: OrderConfirmationView 
-  },
+  }
 ]
 
 const router = createRouter({
