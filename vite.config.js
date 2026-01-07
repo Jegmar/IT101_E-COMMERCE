@@ -1,4 +1,4 @@
-// vite.config.js - COMPLETE REPLACEMENT
+// vite.config.js
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
@@ -10,20 +10,10 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
-  // CRITICAL FOR VERCEL
-  base: '',
+  base: './', // Important: Use relative path
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    sourcemap: false,
-    rollupOptions: {
-      output: {
-        entryFileNames: `assets/[name].[hash].js`,
-        chunkFileNames: `assets/[name].[hash].js`,
-        assetFileNames: `assets/[name].[hash].[ext]`
-      }
-    }
-  },
-  // IMPORTANT: Handle public folder correctly
-  publicDir: 'public'
+    emptyOutDir: true
+  }
 })
