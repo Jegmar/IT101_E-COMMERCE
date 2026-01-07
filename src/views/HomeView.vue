@@ -82,11 +82,13 @@ const handleAddToCart = ({ id, quantity }) => {
   font-size: 3.5rem;
   margin-bottom: 1rem;
   color: white;
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .hero p {
   font-size: 1.4rem;
   max-width: 600px;
   margin: 0 auto 2rem;
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 .hero-buttons {
   display: flex;

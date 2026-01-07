@@ -4,8 +4,26 @@
       <h1>Shopping Cart</h1>
       
       <div v-if="cartItems.length === 0" class="empty-cart">
-        <p>Your cart is empty.</p>
-        <router-link to="/products" class="btn-primary">Browse Cupcakes</router-link>
+        <!-- Shopping cart icon -->
+        <div class="cart-icon">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 12 L8 12 L12 40 L52 40 L56 12 L44 12" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="20" cy="52" r="6" fill="none" stroke="currentColor" stroke-width="4"/>
+            <circle cx="44" cy="52" r="6" fill="none" stroke="currentColor" stroke-width="4"/>
+            <path d="M26 24 L38 24" stroke="var(--accent)" stroke-width="6" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <h2 class="empty-title">Your Cart Is Currently Empty!</h2>
+        
+        <p class="empty-subtitle">
+          Let’s fill it with something sweet!<br>
+          You’ll find plenty of delicious options on our "Menu" page.
+        </p>
+
+        <router-link to="/products" class="btn-primary return-btn">
+          Return To Shop
+        </router-link>
       </div>
 
       <div v-else>
@@ -57,33 +75,60 @@ h1 {
 .empty-cart {
   text-align: center;
   padding: 4rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
-.empty-cart p {
-  font-size: 1.4rem;
-  margin-bottom: 2rem;
+.cart-icon {
+  width: 120px;
+  height: 120px;
   color: var(--text-light);
-  font-weight: 500;
+  opacity: 0.8;
 }
 
-.empty-cart .btn-primary {
+.cart-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.empty-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.empty-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+}
+
+.return-btn {
   background: var(--accent);
   color: white;
-  padding: 1rem 2rem;
+  padding: 1rem 3rem;
   border-radius: 50px;
   text-decoration: none;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   transition: all 0.3s ease;
   display: inline-block;
 }
 
-.empty-cart .btn-primary:hover {
+.return-btn:hover {
   background: #ff9d1a;
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(255, 179, 71, 0.3);
 }
 
+/* Existing non-empty cart styles remain unchanged */
 .cart-list {
   margin-bottom: 2rem;
 }
@@ -171,6 +216,15 @@ h1 {
   .cart-summary {
     padding: 1.5rem;
   }
+
+  .empty-title {
+    font-size: 2rem;
+  }
+
+  .cart-icon {
+    width: 100px;
+    height: 100px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -185,6 +239,10 @@ h1 {
   .checkout-btn {
     font-size: 1.1rem;
     padding: 0.9rem 1.5rem;
+  }
+
+  .empty-title {
+    font-size: 1.8rem;
   }
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
   <section class="confirmation-page">
     <div class="container">
-      <!-- Page title - always visible, centered like your cart -->
+      <!-- Page title with pink handwritten gradient -->
       <h1 class="page-title">My Orders</h1>
 
-      <!-- Confirmed order view -->
+      <!-- Confirmed order view (unchanged) -->
       <div v-if="latestOrder" class="confirmation-card">
         <div class="success-icon">
           <i class="pi pi-check-circle"></i>
@@ -52,13 +52,27 @@
         <button @click="handleOrderReceived" class="got-it-btn">Order Received</button>
       </div>
 
-      <!-- Empty state - styled exactly like your cart empty page -->
-      <div v-else class="empty-order">
-        <!-- Optional cute illustration (uncomment after adding image) -->
-        <!-- <img src="@/assets/images/empty-orders.png" alt="No orders yet" class="empty-illustration" /> -->
+      <!-- Empty state - matching your new reference design -->
+      <div v-else class="empty-orders">
+        <!-- Cute empty icon -->
+        <div class="empty-icon">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <!-- Simple empty box/tray with a small cupcake hint -->
+            <rect x="15" y="30" width="70" height="50" rx="10" fill="none" stroke="#999" stroke-width="6"/>
+            <line x1="15" y1="50" x2="85" y2="50" stroke="#ffb347" stroke-width="8" stroke-linecap="round"/>
+            <circle cx="30" cy="90" r="8" fill="#999"/>
+            <circle cx="70" cy="90" r="8" fill="#999"/>
+          </svg>
+        </div>
 
-        <p class="empty-message">Your order history is empty.</p>
-        <router-link to="/products" class="browse-btn">Browse Cupcakes</router-link>
+        <h2 class="empty-title">Your Order History Is Currently Empty!</h2>
+
+        <p class="empty-subtitle">
+          No orders yet? Let’s change that with some yummy cupcakes!<br>
+          Check out all the tasty choices on our "Menu" page.
+        </p>
+
+        <router-link to="/products" class="return-btn">Return To Shop</router-link>
       </div>
     </div>
   </section>
@@ -73,34 +87,90 @@ const latestOrder = computed(() => orderStore.latestOrder)
 </script>
 
 <style scoped>
-/* Main page centering */
 .confirmation-page {
   padding: 4rem 0;
-  min-height: 50vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Vertical centering */
+  justify-content: center;
   background: var(--bg);
 }
+
 .container {
   max-width: 800px;
   margin: 0 auto;
   text-align: center;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
+/* Pink handwritten title */
 .page-title {
   text-align: center;
-  margin-top: auto;
   margin-bottom: 3rem;
   font-size: 2.5rem;
   color: var(--primary-dark);
 }
 
-/* Confirmed order card */
+/* Empty state */
+.empty-orders {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 4rem 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.empty-icon {
+  width: 120px;
+  height: 120px;
+  color: #5f5f5f;
+}
+
+.empty-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Big pink cursive heading */
+.empty-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Subtitle */
+.empty-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin: 0 0 1.5rem 0;
+}
+
+/* Orange pill button */
+.return-btn {
+  background: #ffb347;
+  color: white;
+  padding: 1rem 3.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 1.3rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 15px rgba(255, 179, 71, 0.25);
+  margin-top: 1.5rem;
+}
+
+.return-btn:hover {
+  background: #ff9d1a;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(255, 179, 71, 0.35);
+}
+
+/* Keep all your existing confirmed order styles below */
 .confirmation-card {
   max-width: 600px;
   margin: 0 auto;
@@ -110,45 +180,13 @@ const latestOrder = computed(() => orderStore.latestOrder)
   box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
 
-/* Empty state - identical to your cart empty page */
-.empty-order {
-  text-align: center;
-  padding: 4rem 0;
-}
-
-.empty-message {
-  font-size: 1.4rem;
-  margin-bottom: 2rem;
-  color: var(--text-light);
-  font-weight: 500;
-}
-
-.browse-btn {
-  background: var(--accent);
-  color: white;
-  padding: 1rem 2rem;
-  border-radius: 50px;
-  text-decoration: none;
-  font-size: 1.1rem;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  display: inline-block;
-}
-
-.browse-btn:hover {
-  background: #ff9d1a;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 179, 71, 0.3);
-}
-
-/* Confirmed order styles (keep these) */
 .success-icon {
   font-size: 4rem;
   color: #4CAF50;
   margin-bottom: 1rem;
 }
 
-h1 {
+.confirmation-card h1 {
   font-size: 2.5rem;
   color: var(--primary-dark);
   margin: 2rem 0;
@@ -190,11 +228,10 @@ h1 {
   margin: 0 auto;
 }
 
-/* The connecting line */
 .progress-tracker::before {
   content: '';
   position: absolute;
-  top: 30px; /* Half of circle height */
+  top: 30px;
   left: 0;
   right: 0;
   height: 4px;
@@ -202,20 +239,18 @@ h1 {
   z-index: 0;
 }
 
-/* Active/Completed line (progress bar) */
 .progress-tracker::after {
   content: '';
   position: absolute;
   top: 30px;
   left: 0;
   height: 4px;
-  background: var(--accent); /* Orange progress line */
-  width: 35%; /* Adjust based on current step: 0%, 33%, 66%, 100% */
+  background: var(--accent);
+  width: 35%;
   transition: width 0.6s ease;
   z-index: 1;
 }
 
-/* Step circles */
 .step {
   flex: 1;
   text-align: center;
@@ -223,20 +258,7 @@ h1 {
   z-index: 2;
 }
 
-.circle {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: #e0e0e0;
-  margin: 0 auto 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.8rem;
-  color: white;
-  transition: all 0.4s ease;
-}
-
+.circle,
 .circle_delivered {
   width: 60px;
   height: 60px;
@@ -249,22 +271,15 @@ h1 {
   font-size: 1.8rem;
   color: white;
   transition: all 0.4s ease;
-  margin-bottom: 2rem;
-}
-/* Completed steps */
-.completed .circle {
-  background: #4CAF50; /* Green */
 }
 
-/* Active step */
 .active .circle {
-  background: var(--accent); /* Orange */
+  background: var(--accent);
   transform: scale(1.15);
   box-shadow: 0 0 20px rgba(255, 184, 77, 0.6);
   animation: pulse 2s infinite;
 }
 
-/* Step text */
 .step p {
   font-size: 1rem;
   color: var(--text-light);
@@ -272,7 +287,6 @@ h1 {
   line-height: 1.3;
 }
 
-.completed ~ .step p,
 .active p {
   color: var(--text);
   font-weight: 600;
@@ -283,27 +297,11 @@ h1 {
   50% { transform: scale(1.25); }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .progress-tracker {
-    flex-direction: column;
-    gap: 2rem;
-  }
-  .progress-tracker::before,
-  .progress-tracker::after {
-    display: none;
-  }
-  .step {
-    margin: 0;
-  }
-}
-
 .got-it-btn {
   background: #cccccc;
   color: #666666;
   cursor: not-allowed;
   opacity: 0.6;
-  transform: none;
   width: 100%;
   padding: 1.2rem;
   font-size: 1.2rem;
@@ -312,4 +310,34 @@ h1 {
   transition: all 0.3s ease;
 }
 
+/* Responsive */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2.8rem;
+  }
+
+  .empty-title {
+    font-size: 2.4rem;
+  }
+
+  .empty-icon {
+    width: 100px;
+    height: 100px;
+  }
+
+  .return-btn {
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 2.4rem;
+  }
+
+  .empty-title {
+    font-size: 2rem;
+  }
+}
 </style>

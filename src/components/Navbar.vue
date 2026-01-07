@@ -48,10 +48,27 @@ const mobileMenuOpen = ref(false)
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
+  padding: 1.5rem 0;
 }
+.logo {
+  text-decoration: none;
+}
+
 .logo h1 {
-  font-size: rem;
+  font-size: 2.25rem;
+  background: linear-gradient(90deg, #ff69a8, #e94590);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-decoration: none;
+  margin: 0;
+  line-height: 1;
+  font-family: 'Pacifico', cursive; /* optional: enhances handwritten feel */
+}
+
+.logo:hover h1,
+.logo.router-link-active h1 {
+  text-decoration: none;
   color: var(--primary);
 }
 .nav-links {
