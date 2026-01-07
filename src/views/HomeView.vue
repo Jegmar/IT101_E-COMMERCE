@@ -68,6 +68,7 @@ const isToastHiding = ref(false)
 const toastMessage = ref('')
 let toastTimeout = null
 
+
 const scrollToFeatured = () => {
   const featuredSection = document.getElementById('featured-cupcakes')
   if (featuredSection) {
