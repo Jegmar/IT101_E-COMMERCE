@@ -1,6 +1,6 @@
 <template>
-  <div class="cart-item">
-    <img :src="item.image" :alt="item.name" />
+  <div class="cart-item" v-if="item && item.id">
+    <img :src="item.image" :alt="item.name" class="cart-item-image" />
     <div class="details">
       <h4>{{ item.name }}</h4>
       <p>₱{{ item.price.toFixed(2) }} each</p>
@@ -28,13 +28,19 @@ import { defineProps } from 'vue'
 import { useCartStore } from '../stores/cart'
 
 const props = defineProps({
-  item: Object
+  item: {
+    type: Object,
+    required: true
+  }
 })
 
 const cartStore = useCartStore()
 
 const update = (delta) => {
-  cartStore.updateQuantity(props.item.id, props.item.quantity + delta)
+  const newQuantity = props.item.quantity + delta
+  if (newQuantity >= 1) {
+    cartStore.updateQuantity(props.item.id, newQuantity)
+  }
 }
 
 const remove = () => {
@@ -57,7 +63,7 @@ const remove = () => {
   background-color: rgba(255, 158, 197, 0.05);
 }
 
-.cart-item img {
+.cart-item-image {
   width: 100%;
   height: 100px;
   border-radius: 12px;
@@ -113,7 +119,7 @@ const remove = () => {
   margin: 0;
   padding: 0;
   position: relative;
-  top: -1px; /* Optical adjustment for perfect centering */
+  top: -1px;
 }
 
 .qty-btn:hover:not(:disabled) {
@@ -194,7 +200,7 @@ const remove = () => {
     padding: 1rem 0;
   }
   
-  .cart-item img {
+  .cart-item-image {
     height: 80px;
   }
   
@@ -212,38 +218,6 @@ const remove = () => {
   
   .details h4 {
     font-size: 1.1rem;
-  }
-  
-  .qty-btn {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .qty-symbol {
-    font-size: 1.2rem;
-  }
-  
-  .qty-display {
-    font-size: 1.1rem;
-    min-width: 26px;
-  }
-}
-
-@media (max-width: 400px) {
-  .cart-item {
-    grid-template-columns: 70px 1fr;
-  }
-  
-  .cart-item img {
-    height: 70px;
-  }
-  
-  .details h4 {
-    font-size: 1rem;
-  }
-  
-  .quantity {
-    gap: 0.75rem;
   }
 }
 </style>

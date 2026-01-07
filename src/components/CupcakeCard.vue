@@ -57,12 +57,14 @@ const openProductModal = (event) => {
 
 .card-image {
   cursor: pointer;
+  height: 250px;
+  overflow: hidden;
 }
 
 .card-image img {
-  aspect-ratio: 1/1;
-  object-fit: cover;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   transition: transform 0.3s ease;
 }
 
@@ -80,13 +82,16 @@ const openProductModal = (event) => {
   font-size: 1.3rem;
   cursor: pointer;
   transition: color 0.3s ease;
+  min-height: 3.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .product-title:hover {
   color: var(--primary);
 }
 
-/* Simplified rating - only one star */
 .rating {
   display: flex;
   align-items: center;
@@ -94,15 +99,16 @@ const openProductModal = (event) => {
   gap: 0.5rem;
   margin: 0.8rem 0 1rem;
   font-size: 1.1rem;
+  flex-wrap: wrap;
 }
 
 .single-star {
-  font-size: 2rem; /* Larger */
-  color: #e0e0e0; /* default: gray */
+  font-size: 2rem;
+  color: #e0e0e0;
 }
 
 .high-rating {
-  color: #ffb84d; /* gold when rating ≥ 4.0 */
+  color: #ffb84d;
 }
 
 .rating-score {
@@ -132,6 +138,7 @@ const openProductModal = (event) => {
   cursor: pointer;
   font-size: 1rem;
   transition: all 0.3s ease;
+  margin-top: 0.5rem;
 }
 
 .add-btn:hover {
@@ -139,10 +146,8 @@ const openProductModal = (event) => {
   transform: translateY(-2px);
 }
 
-/* Smaller styling for search results */
-.card.search-result .card-image img {
-  height: 180px; /* Fixed height instead of aspect-ratio */
-  aspect-ratio: auto; /* Override the 1/1 aspect ratio */
+.card.search-result .card-image {
+  height: 180px;
 }
 
 .card.search-result .card-body {
@@ -152,6 +157,7 @@ const openProductModal = (event) => {
 .card.search-result .product-title {
   font-size: 1.15rem;
   margin-bottom: 0.6rem;
+  min-height: 2.8em;
 }
 
 .card.search-result .rating {
@@ -173,28 +179,13 @@ const openProductModal = (event) => {
   font-size: 0.95rem;
 }
 
-/* Responsive adjustments for search results */
 @media (max-width: 768px) {
-  .card.search-result .card-image img {
-    height: 160px;
+  .card-image {
+    height: 200px;
   }
-}
-
-@media (max-width: 480px) {
-  .card.search-result .card-image img {
+  
+  .card.search-result .card-image {
     height: 140px;
-  }
-  
-  .card.search-result .card-body {
-    padding: 1rem;
-  }
-  
-  .card.search-result .product-title {
-    font-size: 1.05rem;
-  }
-  
-  .card.search-result .single-star {
-    font-size: 1.4rem;
   }
 }
 </style>

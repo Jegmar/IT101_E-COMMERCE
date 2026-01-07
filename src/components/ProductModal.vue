@@ -66,8 +66,10 @@ const closeModal = () => {
 
 const addToCart = () => {
   if (qty.value > 0) {
-    // Emit the event to parent (HomeView.vue)
-    emit('addToCart', { id: props.selectedCupcake.id, quantity: qty.value })
+    emit('addToCart', { 
+      id: props.selectedCupcake.id, 
+      quantity: qty.value
+    })
     closeModal()
   }
 }

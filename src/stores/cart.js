@@ -1,3 +1,4 @@
+// stores/cart.js
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import { cupcakes } from '../data/cupcakes'
@@ -12,7 +13,14 @@ export const useCartStore = defineStore('cart', () => {
     } else {
       const cupcake = cupcakes.find(c => c.id === cupcakeId)
       if (cupcake) {
-        items.value.push({ ...cupcake, quantity })
+        items.value.push({ 
+          id: cupcake.id,
+          name: cupcake.name,
+          price: cupcake.price,
+          image: cupcake.image, // This now has the full public path
+          description: cupcake.description,
+          quantity: quantity 
+        })
       }
     }
   }
