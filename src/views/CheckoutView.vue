@@ -123,7 +123,7 @@
               </div>
               <div class="detail-row">
                 <span>Order Total:</span>
-                <strong>₱{{ totalPrice.toFixed(2) }}</strong>
+                <strong>₱{{ modalTotalPrice.toFixed(2) }}</strong>
               </div>
               <div class="detail-row">
                 <span>Delivery To:</span>
@@ -135,14 +135,16 @@
               </div>
             </div>
             
-            <p class="delivery-note">
+            <div class="delivery-note">
               <i class="pi pi-info-circle"></i>
-              We'll contact you on <strong>{{ form.mobile }}</strong> for delivery updates.
-            </p>
+              <div class="delivery-text">
+                We'll contact you on <strong>{{ form.mobile }}</strong> for delivery updates.
+              </div>
+            </div>
             
             <div class="modal-actions">
               <!-- New button: View Order Status (leads to full page) -->
-              <button @click="goToOrderStatus" class="got-it-btn" style="background: var(--primary-dark);">
+              <button @click="goToOrderStatus" class="view-status-btn">
                 View Order Status
               </button>
 
@@ -165,7 +167,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useCartStore } from '../stores/cart'
 import { useRouter } from 'vue-router'
 import { useOrderStore } from '../stores/order'
@@ -173,8 +175,12 @@ import { useOrderStore } from '../stores/order'
 const orderStore = useOrderStore()
 const cartStore = useCartStore()
 const router = useRouter()
+
 const cartItems = computed(() => cartStore.items)
 const totalPrice = computed(() => cartStore.totalPrice)
+
+// Store the total price before clearing cart
+const modalTotalPrice = ref(0)
 
 const goToOrderStatus = () => {
   showSuccessModal.value = false
@@ -182,9 +188,9 @@ const goToOrderStatus = () => {
     name: 'order-confirmation',
     query: {
       orderId: orderId.value,
-      name: form.name,
-      mobile: form.mobile,
-      total: totalPrice.value
+      name: form.value.name,
+      mobile: form.value.mobile,
+      total: modalTotalPrice.value
     }
   })
 }
@@ -217,6 +223,9 @@ const handleSubmit = async () => {
   
   isSubmitting.value = true
   
+  // Store the total price before clearing cart
+  modalTotalPrice.value = totalPrice.value
+  
   // Simulate API call delay
   await new Promise(resolve => setTimeout(resolve, 1000))
   
@@ -224,38 +233,33 @@ const handleSubmit = async () => {
   const orderData = {
     ...form.value,
     items: cartItems.value,
-    total: totalPrice.value,
+    total: modalTotalPrice.value,
     orderId: orderId.value,
     orderDate: new Date().toISOString()
   }
   
   console.log('Order submitted:', orderData)
   
-  // Show success modal
-  showSuccessModal.value = true
-  
-  // Clear cart
-  cartStore.clearCart()
-    isSubmitting.value = false
-
-    orderStore.setLatestOrder({
+  // Store order in order store
+  orderStore.setLatestOrder({
     orderId: orderId.value,
     name: form.value.name,
     email: form.value.email,
     mobile: form.value.mobile,
     address: form.value.address,
     notes: form.value.notes,
-    total: totalPrice.value,
-    items: cartItems.value,
+    total: modalTotalPrice.value,
+    items: [...cartItems.value], // Create a copy
     date: new Date().toLocaleString()
   })
-
-    orderStore.setLatestOrder({
-    orderId: orderId.value,
-    name: form.value.name,
-    mobile: form.value.mobile,
-    total: totalPrice.value,
-  })
+  
+  // Show success modal
+  showSuccessModal.value = true
+  
+  // Clear cart
+  cartStore.clearCart()
+  isSubmitting.value = false
+  
   // Generate new order ID for next purchase
   orderId.value = generateOrderId()
 }
@@ -271,6 +275,9 @@ const closeModal = () => {
     address: '',
     notes: ''
   }
+  
+  // Reset modal total price
+  modalTotalPrice.value = 0
   
   // Redirect to homepage
   router.push('/')
@@ -535,24 +542,28 @@ input:focus, textarea:focus {
   font-weight: 600;
 }
 
+/* Fixed delivery note alignment - horizontal layout */
 .delivery-note {
   background: rgba(255, 179, 71, 0.08);
-  padding: 0.75rem 1rem;
+  padding: 1rem;
   border-radius: 10px;
   border-left: 3px solid var(--accent);
   text-align: left;
   margin: 1.25rem 0;
   display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 0.75rem;
   font-size: 0.9rem;
 }
 
 .delivery-note i {
   color: var(--accent);
   font-size: 1rem;
-  margin-top: 0.1rem;
   flex-shrink: 0;
+}
+
+.delivery-text {
+  flex: 1;
 }
 
 .delivery-note strong {
@@ -561,6 +572,26 @@ input:focus, textarea:focus {
 
 .modal-actions {
   margin-top: 1.5rem;
+}
+
+.view-status-btn {
+  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 1rem 2.5rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+.view-status-btn:hover {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 158, 197, 0.3);
 }
 
 .got-it-btn {
@@ -574,7 +605,7 @@ input:focus, textarea:focus {
   cursor: pointer;
   transition: all 0.3s ease;
   width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .got-it-btn:hover {
@@ -584,8 +615,8 @@ input:focus, textarea:focus {
 }
 
 .continue-shopping {
-  margin-top: 1rem;
-  padding-top: 1rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
   border-top: 1px solid #eee;
 }
 
@@ -664,6 +695,7 @@ input:focus, textarea:focus {
     font-size: 0.9rem;
   }
   
+  .view-status-btn,
   .got-it-btn {
     font-size: 1rem;
     padding: 0.9rem 2rem;

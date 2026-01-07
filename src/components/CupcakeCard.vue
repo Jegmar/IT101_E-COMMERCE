@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" :class="{ 'search-result': isSearchResult }">
     <div class="card-image" @click="openProductModal">
       <img :src="cupcake.image" :alt="cupcake.name" />
     </div>
@@ -25,7 +25,11 @@
 import { defineProps, defineEmits } from 'vue'
 
 const props = defineProps({
-  cupcake: Object
+  cupcake: Object,
+  isSearchResult: {
+    type: Boolean,
+    default: false
+  }
 })
 
 const emit = defineEmits(['openModal'])
@@ -133,5 +137,64 @@ const openProductModal = (event) => {
 .add-btn:hover {
   background: var(--primary-dark);
   transform: translateY(-2px);
+}
+
+/* Smaller styling for search results */
+.card.search-result .card-image img {
+  height: 180px; /* Fixed height instead of aspect-ratio */
+  aspect-ratio: auto; /* Override the 1/1 aspect ratio */
+}
+
+.card.search-result .card-body {
+  padding: 1.25rem;
+}
+
+.card.search-result .product-title {
+  font-size: 1.15rem;
+  margin-bottom: 0.6rem;
+}
+
+.card.search-result .rating {
+  margin: 0.6rem 0 0.8rem;
+  font-size: 1rem;
+}
+
+.card.search-result .single-star {
+  font-size: 1.6rem;
+}
+
+.card.search-result .price {
+  font-size: 1.2rem;
+  margin: 0.4rem 0 0.8rem;
+}
+
+.card.search-result .add-btn {
+  padding: 0.7rem;
+  font-size: 0.95rem;
+}
+
+/* Responsive adjustments for search results */
+@media (max-width: 768px) {
+  .card.search-result .card-image img {
+    height: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card.search-result .card-image img {
+    height: 140px;
+  }
+  
+  .card.search-result .card-body {
+    padding: 1rem;
+  }
+  
+  .card.search-result .product-title {
+    font-size: 1.05rem;
+  }
+  
+  .card.search-result .single-star {
+    font-size: 1.4rem;
+  }
 }
 </style>
