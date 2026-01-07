@@ -7,39 +7,49 @@ import CheckoutView from '../views/CheckoutView.vue'
 import OrderConfirmationView from '../views/OrderConfirmationView.vue'
 
 const routes = [
-  { path: '/order-confirmation', name: 'order-confirmation', component: OrderConfirmationView },
-  
-  { path: '/', 
+  // HOME MUST BE FIRST!
+  { 
+    path: '/', 
     name: 'home', 
     component: HomeView,
     meta: { 
-        transition: 'fade',
-        title: 'Home - Cupcake Shop'
+      transition: 'fade',
+      title: 'Home - Cupcake Shop'
     }
   },
-  { path: '/products', 
+  { 
+    path: '/products', 
     name: 'products', 
     component: ProductsView,
     meta: { 
-        transition: 'slide',
-        title: 'Our Menu - Cupcake Shop'
+      transition: 'slide',
+      title: 'Our Menu - Cupcake Shop'
     }
   },
-  { path: '/product/:id', 
+  { 
+    path: '/product/:id', 
     name: 'product-detail', 
     component: ProductDetailView,
     meta: { 
-        transition: 'slide',
-        title: 'Our Menu - Cupcake Shop'
+      transition: 'slide',
+      title: 'Product Details - Cupcake Shop'
     }
   },
-  { path: '/cart', 
+  { 
+    path: '/cart', 
     name: 'cart', 
     component: CartView 
   },
-  { path: '/checkout', 
+  { 
+    path: '/checkout', 
     name: 'checkout', 
     component: CheckoutView 
+  },
+  // Order confirmation LAST
+  { 
+    path: '/order-confirmation', 
+    name: 'order-confirmation', 
+    component: OrderConfirmationView 
   }
 ]
 

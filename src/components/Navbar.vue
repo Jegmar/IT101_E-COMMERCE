@@ -7,10 +7,18 @@
       <nav class="nav-links" :class="{ open: mobileMenuOpen }">
         <router-link to="/" @click="mobileMenuOpen = false">Home</router-link>
         <router-link to="/products" @click="mobileMenuOpen = false">Menu</router-link>
-        <router-link to="/order-confirmation" @click="mobileMenuOpen = false" class="orders-link">
+        
+        <!-- Only show Orders link if user has an order -->
+        <router-link 
+          v-if="hasOrder" 
+          to="/order-confirmation" 
+          @click="mobileMenuOpen = false" 
+          class="orders-link"
+        >
           Orders
-          <span v-if="hasRecentOrder" class="order-badge">1</span>
+          <span class="order-badge">1</span>
         </router-link>
+        
         <router-link to="/cart" class="cart-link" @click="mobileMenuOpen = false">
           Cart 🛒
           <span v-if="cartTotal > 0" class="cart-count">{{ cartTotal }}</span>
@@ -26,7 +34,6 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useCartStore } from '../stores/cart'
-import { RouterLink } from 'vue-router'
 import { useOrderStore } from '../stores/order'
 
 const orderStore = useOrderStore()
@@ -63,7 +70,7 @@ const mobileMenuOpen = ref(false)
   text-decoration: none;
   margin: 0;
   line-height: 1;
-  font-family: 'Pacifico', cursive; /* optional: enhances handwritten feel */
+  font-family: 'Pacifico', cursive;
 }
 
 .logo:hover h1,
