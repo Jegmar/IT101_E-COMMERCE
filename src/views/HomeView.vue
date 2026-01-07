@@ -132,7 +132,7 @@ const hideToast = () => {
 
 <style scoped>
 .hero {
-  background: linear-gradient(rgba(255,156,201,0.4), rgba(255,156,201,0.4)), url('/src/assets/images/hero.jpg') center/cover no-repeat;
+  background: linear-gradient(rgba(255,156,201,0.4), rgba(255,156,201,0.4)), url('/images/hero.jpg') center/cover no-repeat;
   padding: 8rem 0;
   text-align: center;
   color: white;

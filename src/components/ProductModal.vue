@@ -14,8 +14,31 @@
         </div>
         <div class="modal-info">
           <h2>{{ selectedCupcake.name }}</h2>
+          
           <p class="modal-price">₱{{ selectedCupcake.price.toFixed(2) }}</p>
           <p class="modal-description">{{ selectedCupcake.description }}</p>
+          
+          <!-- Rating Section - Centered below description -->
+          <div class="modal-rating">
+            <div class="rating-stars">
+              <span 
+                v-for="star in 5" 
+                :key="star" 
+                class="star"
+                :class="{
+                  'filled': star <= Math.floor(selectedCupcake.rating),
+                  'half': star === Math.ceil(selectedCupcake.rating) && selectedCupcake.rating % 1 !== 0
+                }"
+              >
+                ★
+              </span>
+            </div>
+            <div class="rating-details">
+              <span class="rating-score">{{ selectedCupcake.rating.toFixed(1) }}</span>
+              <span class="rating-count">({{ selectedCupcake.ratingCount }} reviews)</span>
+              <span class="ordered-count">• {{ selectedCupcake.orderedCount }} ordered</span>
+            </div>
+          </div>
           
           <div class="modal-quantity">
             <label for="modal-quantity">Quantity:</label>
@@ -212,21 +235,83 @@ const addToCart = () => {
 .modal-info h2 {
   font-size: 2.2rem;
   margin-bottom: 0.5rem;
+  color: #333;
+  text-align: center;
 }
 
 .modal-price {
   font-size: 1.8rem;
   color: var(--primary-dark);
   font-weight: 600;
-  margin: 0.5rem 0 1rem;
+  margin: 0.5rem 0 1.5rem;
+  text-align: center;
 }
 
 .modal-description {
   font-size: 1.1rem;
   color: #666;
   line-height: 1.6;
-  margin-bottom: 2rem;
-  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+  text-align: center;
+  padding: 0 0.5rem;
+}
+
+/* Rating Styles - Centered, no border lines */
+.modal-rating {
+  margin: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.rating-stars {
+  display: flex;
+  gap: 0.2rem;
+  margin-bottom: 0.5rem;
+  justify-content: center;
+}
+
+.star {
+  font-size: 1.6rem;
+  color: #e0e0e0;
+  transition: color 0.3s ease;
+}
+
+.star.filled {
+  color: #ffb84d;
+}
+
+.star.half {
+  background: linear-gradient(to right, #ffb84d 50%, #e0e0e0 50%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.rating-details {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-size: 0.95rem;
+}
+
+.rating-score {
+  font-weight: 600;
+  color: #333;
+}
+
+.rating-count {
+  color: #666;
+}
+
+.ordered-count {
+  color: #666;
+  font-style: italic;
 }
 
 .modal-quantity {
@@ -245,6 +330,7 @@ const addToCart = () => {
   color: #333;
   text-align: center;
   width: 100%;
+  font-size: 1.1rem;
 }
 
 .modal-controls {
@@ -270,6 +356,7 @@ const addToCart = () => {
   padding: 0;
   font-size: 1.4rem;
   font-weight: bold;
+  user-select: none;
 }
 
 .modal-controls button:hover:not(:disabled) {
@@ -291,6 +378,13 @@ const addToCart = () => {
   border: 2px solid #ddd;
   border-radius: 10px;
   -moz-appearance: textfield;
+  font-weight: 600;
+  color: #333;
+}
+
+.modal-controls input:focus {
+  outline: none;
+  border-color: var(--primary);
 }
 
 .modal-controls input::-webkit-outer-spin-button,
@@ -311,6 +405,7 @@ const addToCart = () => {
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 2rem;
+  letter-spacing: 0.5px;
 }
 
 .modal-add-btn:hover:not(:disabled) {
@@ -324,6 +419,10 @@ const addToCart = () => {
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
+}
+
+.modal-add-btn:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 @media (max-width: 768px) {
@@ -345,7 +444,7 @@ const addToCart = () => {
   
   .full-vertical-image {
     height: auto;
-    max-height: 300px;
+    max-height: 280px;
     width: auto;
     max-width: 100%;
   }
@@ -360,6 +459,18 @@ const addToCart = () => {
   
   .modal-price {
     font-size: 1.5rem;
+  }
+  
+  .modal-description {
+    font-size: 1rem;
+  }
+  
+  .rating-stars {
+    font-size: 1.4rem;
+  }
+  
+  .star {
+    font-size: 1.4rem;
   }
   
   .modal-content {
@@ -386,6 +497,7 @@ const addToCart = () => {
 @media (max-width: 480px) {
   .modal-content {
     padding: 1rem;
+    margin: 0.5rem;
   }
   
   .modal-grid {
@@ -398,17 +510,51 @@ const addToCart = () => {
   }
   
   .full-vertical-image {
-    max-height: 250px;
+    max-height: 230px;
   }
   
   .modal-info h2 {
     font-size: 1.6rem;
   }
   
+  .modal-price {
+    font-size: 1.4rem;
+  }
+  
+  .modal-description {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    padding: 0;
+  }
+  
+  .rating-stars {
+    font-size: 1.2rem;
+  }
+  
+  .star {
+    font-size: 1.2rem;
+  }
+  
+  .modal-rating {
+    margin: 1rem 0;
+  }
+  
+  .modal-quantity {
+    margin: 1rem 0;
+  }
+  
   .modal-add-btn {
     margin-top: 1rem;
     font-size: 1.1rem;
     padding: 0.9rem 1.5rem;
+  }
+  
+  .modal-close {
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 35px;
+    height: 35px;
+    font-size: 1.8rem;
   }
 }
 </style>
