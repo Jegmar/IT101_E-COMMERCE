@@ -2,12 +2,10 @@
   <div>
     <Navbar />
     <main>
-      <router-view v-slot="{ Component }">
-        <!-- Add a wrapper div inside transition -->
+      <router-view v-slot="{ Component, route }">
         <transition name="fade" mode="out-in">
-          <div :key="$route.path">  <!-- Add key based on route -->
-            <component :is="Component" />
-          </div>
+          <!-- Remove the wrapper div and use :key directly on component -->
+          <component :is="Component" :key="route.path" />
         </transition>
       </router-view>
     </main>
@@ -16,6 +14,7 @@
 </template>
 
 <script setup>
+// No script needed if you're not importing anything
 </script>
 
 <style>
@@ -59,17 +58,7 @@ body {
   opacity: 0;
 }
 
-.fade-enter-to,
-.fade-leave-from {
-  opacity: 1;
-}
-
 main {
   min-height: calc(100vh - 160px);
-}
-
-/* Ensure router view takes full height */
-.router-view-container {
-  min-height: 100%;
 }
 </style>
