@@ -1,35 +1,29 @@
-<!-- App.vue - COMPLETE REPLACEMENT -->
 <template>
+  <!-- Main container with proper structure -->
   <div id="app">
-    <header>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/products">Menu</router-link> |
-      <router-link to="/cart">Cart</router-link>
-    </header>
-    
-    <main style="padding: 2rem;">
-      <router-view />
+    <Header />
+    <main class="main-content">
+      <router-view /> <!-- This is where your pages render -->
     </main>
-    
-    <footer style="text-align: center; padding: 2rem;">
-      Sweet Bites Cupcake Shop
-    </footer>
+    <Footer />
   </div>
 </template>
 
-<script setup>
-// Empty - no imports
+<script>
+import Header from './components/Navbar.vue'
+import Footer from './components/Footer.vue'
+
+export default {
+  components: { Header, Footer }
+}
 </script>
 
 <style>
+/* Reset and base styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-body {
-  font-family: sans-serif;
 }
 
 #app {
@@ -38,22 +32,11 @@ body {
   flex-direction: column;
 }
 
-main {
+.main-content {
   flex: 1;
-}
-
-a {
-  color: #ff69a8;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-header {
-  background: white;
-  padding: 1rem;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
 }
 </style>
